@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="library/jquery-3.6.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/mediaScreen.css">
+    <script>
+        $(function() {
+            alert('본 홈페이지는 PC에 최적화되어있습니다.모바일의 경우 화면을 가로로 회전하여 봐주세요.');
+        });
+        setInterval(displayTime, 1000);
+        
+        function displayTime() {
+            const timeNow = new Date();
+
+            let hoursOfDay = timeNow.getHours();
+            let minutes = timeNow.getMinutes();
+            
+            hoursOfDay = hoursOfDay < 10 ? "0" + hoursOfDay : hoursOfDay;
+            minutes = minutes < 10 ? "o" + minutes : minutes;
+
+            let time = hoursOfDay + ":" + minutes;
+
+            document.getElementById('time').innerHTML = time;
+        }
+    </script>
+    <style>
+        @media (orientation: landscape) and (max-width:896px) {
+            body {
+                position: absolute;
+                top: 160px;
+                left: 65px;
+                overflow-x: hidden;
+            }
+        }
+    body {
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        box-sizing: border-box;
+        font-size: 1em;
+        overflow-y: hidden;
+    }
+    .base {
+        background-image: url("imgs/main/bg.png");
+        position: absolute;
+        left:50%;
+        top:60%;
+        transform: translate(-50%,-50%);
+        width: 1050px;
+        height: 900px;
+        border-radius: 70px;
+    }
+    .screen {
+        position: absolute;
+        display:flex;
+        flex-direction: column;
+        background-color: black;
+        width: 900px;
+        height: 445px;
+        margin-top: 50px;
+        margin-left: 75px;
+        border-radius: 20px;
+    }
+
+    .screenTop {
+        flex: 20%;
+        border: 1px solid white;
+    }
+
+    .screenTop #searchbar {
+        position: absolute;
+        width: 300px;
+        height: 35px;
+        top: 30px;
+        right: 30px;
+    }
+    #searchbar input[type=text] {
+        float: right;
+        padding: 7px;
+        border: none;
+        width: 285px;
+        border-radius: 30px;
+        font-size: 1em;
+    }
+    .screenTop #time, #topBar {
+        position: absolute;
+        width: 50px;
+        height: 35px;
+        top: 30px;
+    }
+    .screenTop #time {
+        left: 40px;
+        padding: 2px;
+        color: #fff;
+        font-size: 1.2em;
+        font-family: 'Noto Sans KR', sans-serif;
+        animation: glow 1s ease-in-out infinite alternate;
+        -moz-animation: glow 1s ease-in-out infinite alternate;
+        -webkit-animation: glow 1s ease-in-out infinite alternate;
+    }
+    .screenTop #topBar {
+        left: 100px;
+    }
+    .screenTop #topBar img {
+        width: 80%;
+        padding: 5px;
+    }
+    .screenMain {
+        flex: 80%;
+    }
+    .mention-text {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 1.2em;
+        text-align: center;
+        color: white;
+        margin-top: 0px;
+        line-height: 200%;
+    }
+    .mention-text p {
+        padding: 10px;
+    }
+
+    /* start logo button */
+    .start-btn {
+        position: absolute;
+        width: 100%;
+    }
+    .start-btn>a {
+        display: inline-block;
+        position: relative;
+        width: 120px;
+        margin-left: 41%;
+        margin-right: 41%;
+        color: black;
+    }
+
+    #logoOn, #logoOff {
+        width: 100%;
+        background-color: black;
+        border: 1px solid white;
+        text-align: center;
+        border-radius: 70px;
+        padding: 20px;
+    }
+    #logoOff {
+        display: block;
+        box-shadow: 3px 3px white;
+    }
+    #logoOn {
+        display: none;
+    }
+    .start-btn>a:active {
+        color: black;
+    }
+
+    .start-btn>a:active>#logoOff {
+        visibility: hidden;
+    }
+    .start-btn>a:active>#logoOn {
+        display: block;
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        width: 100%;
+    }
+    </style>
+</head>
+<body>
+    <div class="base">
+        <div class="screen">
+            <div class="screenTop">
+                <div id="searchbar">
+                    <input type="text" placeholder="    Search..">
+                </div>
+                <div id="time">00:00</div>
+                <div id="topBar">
+                    <img src="imgs/main/battery.png">
+                </div>
+            </div>
+            <div class="screenMain">
+                <div class="mention-text">
+                    <p>환영합니다! 여기는 무서운 걸 좋아하지만 무서워하는 사람들을 위한 곳입니다.</br>겁쟁이 주인장이 엄선한 무서운 작품들만 있으니 안심하세요.</br>갑자기 놀래키거나 기겁하게 만드는 사진이나 음악은 없습니다.</br>그러니 편한 마음으로 둘러보세요.</p>
+                </div>
+                    <div class="start-btn">
+                        <a href="mainPage3.html">
+                            <img id="logoOff" src="imgs/main/logo.png" alt="logo">;
+                            <img id="logoOn" src="imgs/main/logo.png" alt="logo">;
+                        </a>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

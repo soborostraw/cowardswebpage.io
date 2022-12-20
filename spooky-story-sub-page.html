@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="library/jquery-3.6.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/mediaScreen.css">
+    
+    <style>
+ 
+    body {
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        box-sizing: border-box;
+        font-size: 1em;
+        overflow-y:hidden;
+    }
+    .base {
+        background-image: url("imgs/main/bg.png");
+        position: absolute;
+        left:50%;
+        top:60%;
+        transform: translate(-50%,-50%);
+        background-color: white;
+        width: 1050px;
+        height: 900px;
+        border-radius: 70px;
+    }
+    .screen {
+        position: absolute;
+        display:flex;
+        flex-direction: column;
+        background-color: black;
+        width: 900px;
+        height: 445px;
+        margin-top: 50px;
+        margin-left: 75px;
+        border-radius: 20px;
+    }
+
+    /* screen top */
+    .screenTop {
+        flex: 20%;
+        border-bottom: 2px solid white;
+    }
+    .screenTop #searchbar {
+        position: absolute;
+        width: 300px;
+        height: 35px;
+        top: 30px;
+        right: 30px;
+    }
+    #searchbar input[type=text] {
+        float: right;
+        padding: 7px;
+        border: none;
+        width: 285px;
+        border-radius: 30px;
+        font-size: 1em;
+    }
+    .screenTop .go-back, .ranking-explain-btn {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+    }
+    .screenTop img {
+        width: 100%;
+    }
+    .screenTop .go-back {
+        left: 40px;
+        top: 20px;
+        cursor:pointer;
+    }
+    .screenTop .ranking-explain-btn {
+        left: 100px;
+        top: 20px;
+        cursor:pointer;
+    }
+    .screenTop .sub-page-logo {
+        position: absolute;
+        width: 100px;
+        height: 40px;
+        left: 180px;
+        top: 20px;
+    }
+    .screenTop .sub-page-logo h3 {
+        font-size: 2em;
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        color: white;
+    }
+
+    /* screen main & sub page list */
+    .screenMain {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: block;
+        flex: 80%;
+        font-family: 'Noto Sans KR', sans-serif;
+        width: 101%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .screenMain .post--event>.inner {
+        display: flex;
+        -webkit-box-pack: center;
+        justify-content: space-around;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        border-radius: 0px;
+    }
+    .screenMain .post--event>.inner * {
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        letter-spacing: 0;
+        line-height: 1.08;
+        text-indent: 0;
+        width: 100%;
+        color: white;
+    }
+    .screenMain .post--event a.nolink {
+        color: rgba(0,0,0,.4);
+        /*pointer-events: none;*/ 
+    }
+    a {
+        text-decoration: none;
+    }
+    .screenMain .post--event .inner .left, .center, .right {
+        padding-left: 20px;
+        padding-right: 20px;
+        align-items: center;
+        border-right: 1px solid white;
+        border-bottom: 1px solid white;
+    }
+    .screenMain .post--event .inner .left {
+        width: 15%;
+    }
+    .screenMain .post--event .inner .left .ranking-three {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .screenMain .post--event .inner .left .ranking-two {
+        width: 48%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .screenMain .post--event .inner .left .ranking-one {
+        width: 25%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .screenMain .post--event .inner .center {
+        width: 60%;
+    }
+    .screenMain .post--event .inner .right {
+        width: 25%;
+    }
+    .name {
+        font-weight: 400;
+        padding: 10px;
+        font-size: 1.1em;
+        margin:20px;
+    }
+    .genre {
+        font-weight: 300;
+        font-size: 1.1em;
+        margin: 20px;
+    }
+    
+    .posts--children .inner {
+        display: flex;
+        flex-direction: column;
+    }
+    .posts--children .inner .series-list a {
+        width: 100%;
+    }
+    .posts--children .inner .series-list a .center {
+        width: 96%;
+        text-align: center;
+    }
+    .posts--children .inner .series-list a .center h5 {
+        width: 100%;
+        margin: 0;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        font-size: 1em;
+        font-weight: 400;
+        color: white;
+    }
+    
+
+    /*ranking explain part*/
+    .ranking-explain {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        top: 18%;
+        left: 8.5%;
+        width: 700px;
+        height: 330px;
+        padding: 40px 50px;
+        background-image: url("imgs/sub-page/ranking-explain-bg.png");
+        display:none;
+    }
+    .ranking-explain .close-btn {
+        position: absolute;
+        top: 60px;
+        right: 30px;
+        width: 30px;
+        height: 30px;
+    }
+    .ranking-explain .close-btn img {
+        width: 100%;
+    }
+    .ranking-explain #ranking-explain-content {
+        display: block;
+        width: 100%;
+        margin-top: 33px;
+    }
+    .ranking-explain h4 {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 600;
+        line-height: 180%; 
+        margin: 0;
+        font-size: 1.1em;
+    }
+    .ranking-explain h5 {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 600;
+        line-height: 180%; 
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1em
+    }
+    .ranking-explain p {
+        display: inline;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 400;
+        line-height: 180%;
+    }
+    .ranking-explain #start1 {
+        width:4%;
+        padding-right: 5px;
+    }
+    .ranking-explain #start2 {
+        width: 8%;
+        padding-right: 5px;
+    }
+    .ranking-explain #start3 {
+        width: 12%;
+        padding-right: 5px;
+    }
+    </style>
+    <script>
+        $(document).ready(function() {
+            //ranking btn
+            $(".ranking-explain-btn").click(function(){
+                $(".ranking-explain").css('display','block').hide().fadeIn();
+            });
+            $(".close-btn").click(function(){
+                  rankingExplainClose();
+            });
+            function rankingExplainClose() {
+                $(".ranking-explain").css('display','block').fadeOut();
+            }
+            
+            //sub-list responsive
+            $(".has-children").children('.center').click(function(){
+                var subList = $(this).parent('.has-children').parent('.inner').next(".posts--children");
+
+                if(subList.is(":visible")) {
+                    subList.slideUp();
+                } else {
+                    subList.slideDown();
+                } 
+            });
+
+            /*mode-btn reposive*/
+            $(".mode-btn-click-space").children(".dark-mode").click(function(){
+                var modebtn = $(".when-dark-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            });
+            $(".when-dark-active").children(".light-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'none');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'block');
+
+                $(".when-dark-active").slideUp();
+            })
+            $(".when-dark-active").children(".cute-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'none');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'block');
+
+                $(".when-dark-active").slideUp();
+            })
+
+            $(".mode-btn-click-space").children(".light-mode").click(function(){
+                var modebtn = $(".when-light-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            })
+            $(".when-light-active").children(".dark-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'none');
+
+                $(".when-light-active").slideUp();
+            })
+            $(".when-light-active").children(".cute-mode").click(function() {
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'none');
+
+                $(".when-light-active").slideUp();
+            })
+
+            $(".mode-btn-click-space").children(".cute-mode").click(function(){
+                var modebtn = $(".when-cute-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            })
+            $(".when-cute-active").children(".dark-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'none');
+
+                $(".when-cute-active").slideUp();
+            })
+            $(".when-cute-active").children(".light-mode").click(function() {
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'none');
+
+                $(".when-cute-active").slideUp();
+            })
+
+            
+
+            //actual changing view mode
+            $(".light-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/bg-light.png")')
+                $('.screen').css('background-color','white');
+                $(".screenTop").css('background','white').css('border-bottom','2px solid black');
+                $('#time').css('color','black');
+                $(".screenMain").css('background','white');
+                $(".mention-text").css('color','black');
+                $(".btn-list").children('li').children('a').css('color','black');
+                $('.off-w').css('display','inline').css('position','absolute').css('width','100%');
+                $('.film-off').css('display','none');
+                $('.film-on').css('display','none');
+                $('#time').css('color','black');
+                $('#battery').css('display','none');
+                $('#battery-w').css('display','inline').css('width','80%').css('padding','5px');
+                $('input[type=text]').css('background-color','black').css('color','white').css('padding','7px').css('font-size','1em');
+                
+                //spooky-story-sub-page
+                $('h3').css('color','black');
+                $(".post-item").css('background','white');
+                $(".left").css('background','white').css('border-right','1px solid black').css('border-bottom','1px solid black');
+                $(".center").css('background','white').css('border-right','1px solid black').css('border-bottom','1px solid black');
+                $(".right").css('background','white').css('border-bottom','1px solid black');
+                $('h4').css('color','black');
+                $('h5').css('color','black');
+                $('.ranking-w').css('display','none');
+                $('.ranking-b').css('display','inline');
+
+                //detail content
+                $(".story-content-place").css('background','white').css('border-bottom','2px solid black');
+                $('.story-content').css('color','black');
+                $('.footage').children('a').css('color','black');
+            });
+            $('#short-film-off-w').hover(function(){
+                $('#short-film-on-w').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#short-film-on-w').css('display','none');
+            });
+            $('#movie-off-w').hover(function(){
+                $('#movie-on-w').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#movie-on-w').css('display','none');
+            });
+
+            $(".dark-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/bg.png")')
+                $('.screen').css('background-color','black');
+                $(".screenTop").css('background','black').css('border-bottom','2px solid white');
+                $('#time').css('color','white');
+                $(".screenMain").css('background','black');
+                $(".mention-text").css('color','white');
+                $(".btn-list").children('li').children('a').css('color','white');
+                $('.off-w').css('display','none');
+                $('.on-w').css('display','none');
+                $('.off').css('display','inline').css('position','absolute').css('width','100%');
+                $('#time').css('color','white');
+                $('#battery-w').css('display','none');
+                $('#battery').css('display','inline').css('width','80%').css('padding','5px');
+                $('input[type=text]').css('background-color','white').css('color','black').css('padding','7px').css('font-size','1em');
+
+                //spooky-story-sub-page
+                $('h3').css('color','white');
+                $(".post-item").css('background','black');
+                $(".left").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".center").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".right").css('background','black').css('border-bottom','1px solid white').css('border-bottom', '1px solid white');
+                $('h4').css('color','white');
+                $('h5').css('color','white');
+                $('.ranking-b').css('display','none');
+                $('.ranking-w').css('display','inline');
+
+                //detail content
+                $(".story-content-place").css('background','black').css('border-bottom','2px solid white');
+                $('.story-content').css('color','white');
+                $('.footage').children('a').css('color','white');
+            });
+            $('#short-film-off').hover(function(){
+                $('#short-film-on').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#short-film-on').css('display','none');
+            });
+            $('#movie-off').hover(function(){
+                $('#movie-on').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#movie-on').css('display','none');
+            });
+
+            $(".cute-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/cute-mode-bg.gif")')
+                $('.screen').css('background-color','black');
+                $(".screenTop").css('border-bottom','1px solid white').css('background-color','black');
+                $('#time').css('color','white');
+                $('.screenMain').css('background-color','black');
+                $(".mention-text").css('color','white');
+                $(".btn-list").children('li').children('a').css('color','white');
+                $('.off-w').css('display','none');
+                $('.on-w').css('display','none');
+                $('.off').css('display','inline').css('position','absolute').css('width','100%');
+                $('#time').css('color','white');
+                $('#battery-w').css('display','none');
+                $('#battery').css('display','inline').css('width','80%').css('padding','5px');
+                $('input[type=text]').css('background-color','white').css('color','black').css('padding','7px').css('font-size','1em');
+
+                //spooky-story-sub-page
+                $('h3').css('color','white');
+                $(".post-item").css('background','black');
+                $(".left").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".center").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".right").css('background','black').css('border-bottom','1px solid white').css('border-bottom', '1px solid white');
+                $('h4').css('color','white');
+                $('h5').css('color','white');
+                $('.ranking-b').css('display','none');
+                $('.ranking-w').css('display','inline');
+
+                //detail content
+                $(".story-content-place").css('background','black').css('border-bottom','2px solid white');
+                $('.story-content').css('color','white');
+                $('.footage').children('a').css('color','white');
+            });
+            $('#short-film-off').hover(function(){
+                $('#short-film-on').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#short-film-on').css('display','none');
+            });
+            $('#movie-off').hover(function(){
+                $('#movie-on').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#movie-on').css('display','none');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="base">
+        <div class="screen">
+            <div class="screenTop">
+                <div id="searchbar">
+                    <input type="text" placeholder="    Search..">
+                </div>
+                <div class="go-back">
+                    <a href="mainPage3.html">
+                        <img src="imgs/sub-page/home-btn.png">
+                    </a>
+                </div>
+                <div class="ranking-explain-btn" id="ranking-explain-btn">
+                    <img src="imgs/sub-page/ranking-btn.png">
+                </div>
+                <div class="sub-page-logo">
+                    <h3>괴담</h3>    
+                </div>
+            </div>
+            <div class="ranking-explain" id="ranking-explain">
+                <div class="close-btn">
+                    <img src="imgs/sub-page/close-btn.png">
+                </div>
+                <div id="ranking-explain-content">
+                    <h4>* 난이도</h4>
+                    <h5>기준: 상업 공포 영화(ex. 고사, 장화홍련, 무서운 이야기 등등...)를 전혀 보지 못하는 사람<span class="little-space" style="display:block;padding:5px;"></span></h5>
+                    <img id="start1" src="imgs/sub-page/ranking1-b.png">
+                    <p>: 약간 소름 돋는 정도. 밤에 생각날 정도는 아니다.<span class="little-space" style="display:block; padding: 10px;"></span></p>
+                    <img id="start2" src="imgs/sub-page/ranking2-b.png">
+                    <p>: 다소 충격이 있을 수 있음. 불 끄고 보거나 밤에 보면 무서울 수 있다.<span class="little-space" style="display:block;padding: 10px;"></span></span></p>
+                    <img id="start3" src="imgs/sub-page/ranking3-b.png">
+                    <p>: 오늘은 달려보겠다! 스릴과 공포를 느끼고 싶을 때 추천. (물론 겁쟁이 기준)<span class="little-space"></span></p>
+                </div>
+            </div>
+            <div class="screenMain">
+                <div class="post-item post--event">
+                    <div class="inner">
+                        <a href="spooky-story-content-page-dream50.html" class="nolink">
+                            <div class="left">
+                                <div class="ranking">
+                                    <img src="imgs/sub-page/ranking1.png" class="ranking-w ranking-one">
+                                    <img src="imgs/sub-page/ranking1-r.png" class="ranking-r ranking-one" style="display:none">
+                                    <img src="imgs/sub-page/ranking1-b.png" class="ranking-b ranking-one" style="display:none">
+                                </div>
+                            </div>
+                            <div class="center">
+                                <h4 class="name">
+                                    영화 <1/50>
+                                </h4>
+                            </div>
+                            <div class="right">
+                                <h5 class="genre">으스스한</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="post-item post--event active">
+                    <div class="inner">
+                        <a href="#" class="has-children">
+                            <div class="left">
+                                <div class="ranking">
+                                    <img src="imgs/sub-page/ranking1.png" class="ranking-w ranking-one">
+                                    <img src="imgs/sub-page/ranking1-r.png" class="ranking-r ranking-one" style="display:none">
+                                    <img src="imgs/sub-page/ranking1-b.png" class="ranking-b ranking-one" style="display:none">
+                                </div>
+                            </div>
+                            <div class="center">
+                                <h4 class="name">
+                                    나폴리탄 괴담 시리즈
+                                </h4>
+                            </div>
+                            <div class="right">
+                                <h5 class="genre">으스스한/알고 나면 무서운</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="posts--children" style="display: none;">
+                        <div class="post--children post-series">
+                            <div class="inner">
+                                <div class="series-list">
+                                    <a href="spooky-story-content-page-napol1.html" class="nolink">
+                                        <div class="center">
+                                            <h5 class="series-name">
+                                                디즈니 직원들을 위한 메모
+                                            </h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="series-list">
+                                    <a href="spooky-story-content-page-napol2.html" class="nolink">
+                                        <div class="center">
+                                            <h5 class="series-name">
+                                                無名書䜌_무명서련
+                                            </h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="series-list">
+                                    <a href="#" class="nolink">
+                                        <div class="center">
+                                            <h5 class="series-name">
+                                                빌딩 속의 밀실
+                                            </h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="series-list">
+                                    <a href="spooky-story-content-page-napol4.html" class="nolink">
+                                        <div class="center">
+                                            <h5 class="series-name">
+                                                소녀의 일기장
+                                            </h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="series-list">
+                                    <a href="#" class="nolink">
+                                        <div class="center">
+                                            <h5 class="series-name">
+                                                소의 목
+                                            </h5>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-item post--event active">
+                    <div class="inner">
+                        <a href="#" class="has-children">
+                            <div class="left">
+                                <div class="ranking">
+                                    <img src="imgs/sub-page/ranking3.png" class="ranking-w ranking-three">
+                                    <img src="imgs/sub-page/ranking3-r.png" class="ranking-r ranking-three" style="display:none">
+                                    <img src="imgs/sub-page/ranking3-b.png" class="ranking-b ranking-three" style="display:none">
+                                </div>
+                            </div>
+                            <div class="center">
+                                <h4 class="name">
+                                    바다 거북 스프 문제 시리즈
+                                </h4>
+                            </div>
+                            <div class="right">
+                                <h5 class="genre">수수께끼/알고 나면 무서운</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="posts--children" style="display: none;">
+                        <div class="post--children post-series">
+                            <div class="inner">
+                                <div class="series-list">
+                                    <a href="spooky-story-content-page-turtlesoap1.html" class="nolink">
+                                        <div class="center">
+                                            <h5 class="series-name">
+                                                바다 거북 스프 문제
+                                            </h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="series-list">
+                                    <a href="spooky-story-content-page-turtlesoap2.html" class="nolink">
+                                        <div class="center">
+                                            <h5 class="series-name">
+                                                경찰과 지도
+                                            </h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="series-list">
+                                    <a href="spooky-story-content-page-turtlesoap3.html" class="nolink">
+                                        <div class="center">
+                                            <h5 class="series-name">
+                                                친구의 생일
+                                            </h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="series-list">
+                                    <a href="spooky-story-content-page-turtlesoap4.html" class="nolink">
+                                        <div class="center">
+                                            <h5 class="series-name">
+                                                선풍기
+                                            </h5>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-item post--event">
+                    <div class="inner">
+                        <a href="#" class="nolink">
+                            <div class="left">
+                                <div class="ranking">
+                                    <img src="imgs/sub-page/ranking1.png" class="ranking-w ranking-one">
+                                    <img src="imgs/sub-page/ranking1-r.png" class="ranking-r ranking-one" style="display:none">
+                                    <img src="imgs/sub-page/ranking1-b.png" class="ranking-b ranking-one" style="display:none">
+                                </div>
+                            </div>
+                            <div class="center">
+                                <h4 class="name">
+                                    404호
+                                </h4>
+                            </div>
+                            <div class="right">
+                                <h5 class="genre">스릴러</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="post-item post--event">
+                    <div class="inner">
+                        <a href="#" class="nolink">
+                            <div class="left">
+                                <div class="ranking">
+                                    <img src="imgs/sub-page/ranking1.png" class="ranking-w ranking-one">
+                                    <img src="imgs/sub-page/ranking1-r.png" class="ranking-r ranking-one" style="display:none">
+                                    <img src="imgs/sub-page/ranking1-b.png" class="ranking-b ranking-one" style="display:none">
+                                </div>
+                            </div>
+                            <div class="center">
+                                <h4 class="name">
+                                        사랑하는 친구에게
+                                </h4>
+                            </div>
+                            <div class="right">
+                                <h5 class="genre">추리</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function(){
+                var mode1 = $('.dark-mode.active');
+                var mode2 = $('.light-mode.active');
+
+                mode1.click();
+            })
+        </script>
+    </div>
+</body>
+</html>

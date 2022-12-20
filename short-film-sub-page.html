@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="library/jquery-3.6.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/mediaScreen.css">
+    
+    <style>
+    @media (orientation: landscape) and (max-width:896px) {
+            body {
+                position: absolute;
+                top: 160px;
+                left: 65px;
+                overflow-x: hidden;
+            }
+            
+        }   
+    body {
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        box-sizing: border-box;
+        font-size: 1em;
+        overflow-y:hidden;
+        margin: 0;
+        padding: 0;
+    }
+    .base {
+        background-image: url("imgs/main/bg.png");
+        display: block;
+        position: absolute;
+        left:50%;
+        top:60%;
+        transform: translate(-50%,-50%);
+        background-color: white;
+        width: 1050px;
+        height: 900px;
+        border-radius: 70px;
+    }
+    .screen {
+        position: absolute;
+        display:flex;
+        flex-direction: column;
+        background-color: black;
+        width: 900px;
+        height: 445px;
+        margin-top: 50px;
+        margin-left: 75px;
+        border-radius: 20px;
+    }
+
+    /* screen top */
+    .screenTop {
+        flex: 20%;
+        border: 1px solid white;
+    }
+    .screenTop #searchbar {
+        position: absolute;
+        width: 300px;
+        height: 35px;
+        top: 30px;
+        right: 30px;
+        /*background-color: red;*/
+    }
+    #searchbar input[type=text] {
+        float: right;
+        padding: 7px;
+        border: none;
+        width: 285px;
+        border-radius: 30px;
+        font-size: 1em;
+    }
+    .screenTop .go-back, .ranking-explain-btn {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+    }
+    .screenTop img {
+        width: 100%;
+    }
+    .screenTop .go-back {
+        left: 40px;
+        top: 20px;
+        cursor:pointer;
+    }
+    .screenTop .ranking-explain-btn {
+        left: 100px;
+        top: 20px;
+        cursor:pointer;
+    }
+    .screenTop .sub-page-logo {
+        position: absolute;
+        width: 150px;
+        height: 40px;
+        left: 180px;
+        top: 20px;
+    }
+    .screenTop .sub-page-logo h3 {
+        font-size: 2em;
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        color: white;
+    }
+
+    /* screen main & sub page list */
+    .screenMain {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: block;
+        flex: 80%;
+        font-family: 'Noto Sans KR', sans-serif;
+        border-radius: 20px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .screenMain .post--event {
+        background-color: black; 
+        border-bottom: 1px solid white;
+        border-top: 1px solid white;
+    }
+    .screenMain .post--event>.inner {
+        background-color: black;
+        display: flex;
+        -webkit-box-pack: center;
+        justify-content: space-around;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        transition: border-radius .7s ease;
+    }
+    .screenMain .post--event>.inner * {
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        letter-spacing: 0;
+        line-height: 1.08;
+        text-indent: 0;
+        width: 100%;
+        color: white;
+    }
+    .screenMain .post--event a.nolink {
+        color: rgba(0,0,0,.4);
+        /*pointer-events: none;*/ 
+    }
+    a {
+        text-decoration: none;
+    }
+    .screenMain .post--event .inner .left, .center, .right {
+        padding-right: 20px;
+        padding-left: 20px;
+        align-items: center;
+        border-right: 1px solid white;
+    }
+    .screenMain .post--event .inner .left {
+        width: 15%;
+        background-color: black;
+        padding: 20px;
+    }
+    .screenMain .post--event .inner .left .ranking-three, .ranking-r.r-three {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .screenMain .post--event .inner .left .ranking-two, .ranking-r.r-two {
+        width: 48%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .screenMain .post--event .inner .left .ranking-one, .ranking-r.r-one {
+        width: 25%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .screenMain .post--event .inner .center {
+        width: 60%;
+        background-color: black;
+    }
+    .screenMain .post--event .inner .right {
+        width: 25%;
+        background-color: black;
+    }
+    .name {
+        font-weight: 400;
+        padding: 10px;
+        font-size: 1.1em;
+        margin:20px;
+    }
+    .genre {
+        font-weight: 300;
+        font-size: 1.1em;
+        margin: 20px;
+    }
+    
+    .posts--children .inner {
+        width: 100%;
+    }
+    .posts--children .inner .series-list {
+        width: 100%;
+    }
+    .posts--children .inner .series-list .nolink  {
+       display: flex;
+    }
+    .posts--children .inner .series-list a .left {
+        width: 70%;
+        border-bottom: 1px solid white;
+        border-top: 1px solid white;
+        text-align: center;
+        padding: 30px;
+    }
+    .posts--children .inner .series-list a .right {
+        width: 30%;
+        border-top: 1px solid white;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+    }
+    .posts--children .inner .series-list a .right .right-top {
+        width:100%;
+        padding: 20px;
+        border-bottom: 1px solid white;
+    }
+    .posts--children .inner .series-list a .right .right-bottom {
+        width:100%;
+        padding: 20px;
+    }
+    .explain {
+        width: 100%;
+        padding: 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: white;
+        font-size: 1em;
+        font-weight: 400;
+    }
+    .review {
+        width: 100%;
+        padding: 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: white;
+        font-size: 1em;
+        font-weight: 300;
+    }
+
+    /*ranking explain part*/
+    .ranking-explain {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        top: 18%;
+        left: 8.5%;
+        width: 700px;
+        height: 330px;
+        padding: 40px 50px;
+        background-image: url("imgs/sub-page/ranking-explain-bg.png");
+        display:none;
+    }
+    .ranking-explain .close-btn {
+        position: absolute;
+        top: 60px;
+        right: 30px;
+        width: 30px;
+        height: 30px;
+    }
+    .ranking-explain .close-btn img {
+        width: 100%;
+    }
+    .ranking-explain #ranking-explain-content {
+        display: block;
+        width: 100%;
+        margin-top: 33px;
+    }
+    .ranking-explain h4 {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 600;
+        line-height: 180%; 
+        margin: 0;
+        font-size: 1.1em;
+    }
+    .ranking-explain h5 {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 600;
+        line-height: 180%; 
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1em
+    }
+    .ranking-explain p {
+        display: inline;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 400;
+        line-height: 180%;
+    }
+    .ranking-explain #start1 {
+        width:4%;
+        padding-right: 5px;
+    }
+    .ranking-explain #start2 {
+        width: 8%;
+        padding-right: 5px;
+    }
+    .ranking-explain #start3 {
+        width: 12%;
+        padding-right: 5px;
+    }
+
+    /* screen mode button control */ 
+    .when-dark-active, .when-light-active, .when-cute-active {
+        position: absolute;
+        width: 115px;
+        height: 215px;
+        display:none;
+        right: 420px;
+        top: 65px;
+    }
+    .dark-mode, .light-mode, .cute-mode {
+        width: 110px;
+        height: 60px;
+        border-radius: 40px;
+        font-family: 'Noto Sans KR', sans-serif;
+        text-align: center;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+    .dark-mode p, .light-mode p, .cute-mode p {
+        font-size: 1.1em;
+        padding: 1em;
+        margin:0;
+    }
+    .dark-mode {
+        background-color: black;
+        color: white;
+        border: 1px solid white;
+    }
+    .light-mode {
+        background-color: white;
+        color: black;
+        cursor: pointer;
+        border: 1px solid black;
+    }
+    .cute-mode {
+        background-color: pink;
+    }
+    .mode-btn-click-space {
+        position: absolute;
+        right: 420px;
+        top: 65px;
+        width: 115px;
+        height: 60px;
+        cursor: pointer;
+    }
+    </style>
+    <script>
+        $(document).ready(function() {
+            //ranking btn
+            $(".ranking-explain-btn").click(function(){
+                $(".ranking-explain").css('display','block').hide().fadeIn();
+            });
+            $(".close-btn").click(function(){
+                  rankingExplainClose();
+            });
+            function rankingExplainClose() {
+                $(".ranking-explain").css('display','block').fadeOut();
+            }
+
+            
+            //sub-list responsive
+            $(".has-children").children('.center').click(function(){
+                var subList = $(this).parent('.has-children').parent('.inner').next(".posts--children");
+
+                if(subList.is(":visible")) {
+                    subList.slideUp();
+                } else {
+                    subList.slideDown();
+                } 
+            });
+            
+            //mode-btn reposive
+            $(".mode-btn-click-space").children(".dark-mode").click(function(){
+                var modebtn = $(".when-dark-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            });
+            $(".when-dark-active").children(".light-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'none');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'block');
+
+                $(".when-dark-active").slideUp();
+            })
+            $(".when-dark-active").children(".cute-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'none');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'block');
+
+                $(".when-dark-active").slideUp();
+            })
+
+            $(".mode-btn-click-space").children(".light-mode").click(function(){
+                var modebtn = $(".when-light-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            })
+            $(".when-light-active").children(".dark-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'none');
+
+                $(".when-light-active").slideUp();
+            })
+            $(".when-light-active").children(".cute-mode").click(function() {
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'none');
+
+                $(".when-light-active").slideUp();
+            })
+
+            $(".mode-btn-click-space").children(".cute-mode").click(function(){
+                var modebtn = $(".when-cute-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            })
+            $(".when-cute-active").children(".dark-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'none');
+
+                $(".when-cute-active").slideUp();
+            })
+            $(".when-cute-active").children(".light-mode").click(function() {
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'none');
+
+                $(".when-cute-active").slideUp();
+            });
+
+            //actual changing view mode
+            $(".light-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/bg-light.png")')
+                $('.screen').css('background-color','white');
+                $(".screenTop").css('background','white').css('border-bottom','2px solid black');
+                $(".screenMain").css('background','white');
+                $('input[type=text]').css('background-color','black').css('color','white').css('padding','7px').css('font-size','1em');
+                $('h3').css('color','black');
+                $(".post-item").css('background','white');
+                $(".left").css('background','white').css('border-right','1px solid black').css('border-bottom','1px solid black');
+                $(".center").css('background','white').css('border-right','1px solid black').css('border-bottom','1px solid black');
+                $(".right").css('background','white').css('border-bottom','1px solid black');
+                $('.right-top').css('border-bottom','1px solid black');
+                $('h4').css('color','black');
+                $('h5').css('color','black');
+                $('.review').css('color','black');
+                $('.ranking-w').css('display','none');
+                $('.ranking-r').css('display','inline');
+                $(".story-content-place").css('background','white').css('border-bottom','2px solid black');
+                $('.story-content').css('color','black');
+                $('.footage').children('a').css('color','black');
+            });
+
+            $(".dark-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/bg.png")')
+                $('.screen').css('background-color','black');
+                $(".screenTop").css('background','black').css('border-bottom','2px solid white');
+                $(".screenMain").css('background','black');
+                $('input[type=text]').css('background-color','white').css('color','black').css('padding','7px').css('font-size','1em');
+                $('h3').css('color','white');
+                $(".post-item").css('background','black');
+                $(".left").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".center").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".right").css('background','black').css('border-bottom','1px solid white').css('border-bottom', '1px solid white');
+                $('h4').css('color','white');
+                $('h5').css('color','white');
+                $('.review').css('color','white');
+                $('.ranking-w').css('display','inline');
+                $('.ranking-r').css('display','none');
+                $(".story-content-place").css('background','black').css('border-bottom','2px solid white');
+                $('.story-content').css('color','white');
+                $('.footage').children('a').css('color','white');
+            });
+
+            $(".cute-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/cute-mode-bg.gif")')
+                $('.screen').css('background-color','black');
+                $(".screenTop").css('border-bottom','1px solid white').css('background-color','black');
+                $('.screenMain').css('background-color','black');
+                $('input[type=text]').css('background-color','white').css('color','black').css('padding','7px').css('font-size','1em');
+                $('h3').css('color','white');
+                $(".post-item").css('background','black');
+                $(".left").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".center").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".right").css('background','black').css('border-bottom','1px solid white').css('border-bottom', '1px solid white');
+                $('h4').css('color','white');
+                $('h5').css('color','white');
+                $('.review').css('color','white');
+                $('.ranking-b').css('display','inline');
+                $('.ranking-r').css('display','none');
+                $(".story-content-place").css('background','black').css('border-bottom','2px solid white');
+                $('.story-content').css('color','white');
+                $('.footage').children('a').css('color','white');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="base">
+        <div class="screen">
+            <div class="screenTop">
+                <div id="searchbar">
+                    <input type="text" placeholder="    Search..">
+                </div>
+                <div class="go-back">
+                    <a href="mainPage3.html">
+                        <img src="imgs/sub-page/home-btn.png">
+                    </a>
+                </div>
+                <div class="ranking-explain-btn" id="ranking-explain-btn">
+                    <img src="imgs/sub-page/ranking-btn.png">
+                </div>
+                <div class="sub-page-logo">
+                    <h3>짧은 영화</h3>    
+                </div>
+            </div>
+            <div class="ranking-explain" id="ranking-explain">
+                <div class="close-btn">
+                    <img src="imgs/sub-page/close-btn.png">
+                </div>
+                <div id="ranking-explain-content">
+                    <h4>* 난이도</h4>
+                    <h5>기준: 상업 공포 영화(ex. 고사, 장화홍련, 무서운 이야기 등등...)를 전혀 보지 못하는 사람<span class="little-space" style="display:block;padding:5px;"></span></h5>
+                    <img id="start1" src="imgs/sub-page/ranking1-b.png">
+                    <p>: 약간 소름 돋는 정도. 밤에 생각날 정도는 아니다.<span class="little-space" style="display:block; padding: 10px;"></span></p>
+                    <img id="start2" src="imgs/sub-page/ranking2-b.png">
+                    <p>: 다소 충격이 있을 수 있음. 불 끄고 보거나 밤에 보면 무서울 수 있다.<span class="little-space" style="display:block;padding: 10px;"></span></span></p>
+                    <img id="start3" src="imgs/sub-page/ranking3-b.png">
+                    <p>: 오늘은 달려보겠다! 스릴과 공포를 느끼고 싶을 때 추천. (물론 겁쟁이 기준)<span class="little-space"></span></p>
+                </div>
+            </div>
+            <div class="screenMain">
+                <div class="post-item post--event active">
+                    <div class="inner">
+                        <a href="#" class="has-children">
+                            <div class="left">
+                                <div class="ranking">
+                                    <img src="imgs/sub-page/ranking1.png" class="ranking-w ranking-one">
+                                    <img src="imgs/sub-page/ranking1-b.png" class="ranking-r ranking-one" style="display:none">
+                                </div>
+                            </div>
+                            <div class="center">
+                                <h4 class="name">
+                                    Curves
+                                </h4>
+                            </div>
+                            <div class="right">
+                                <h5 class="genre">약간의 유혈<br>/심리 스릴러</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="posts--children" style="display: none;">
+                        <div class="post--children post-series">
+                            <div class="inner">
+                                <div class="series-list">
+                                    <a href="#" class="nolink">
+                                        <div class="left">
+                                            <iframe width="560" height="315" src="https://www.youtube.com/embed/2dD3Fawk4y0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        </div>
+                                        <div class="right">
+                                            <div class="right-top">
+                                            <h5 class="explain">
+                                                감독: Tim Egan
+                                            </h5>
+                                            <h5 class="explain">
+                                                각본: Tim Egan
+                                            </h5>
+                                            </div>
+                                            <div class="right-bottom">
+                                            <h5 class="explain">후기</h5>
+                                            <p class="review">완전히 새로운 감각을 느끼게 해주는 단편 영화. 다이나믹하지도, 극적이지도 않지만 계속해서 감정에 압도된다. 개인적으로, 이 영화는 '깊은 우울감'을 시각적으로 재현했다는 느낌이 들었다. 약간의 유혈이 있을 뿐, 점프스케어나 징그러운 건 없으므로 강력 추천!</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-item post--event active">
+                    <div class="inner">
+                        <a href="#" class="has-children">
+                            <div class="left">
+                                <div class="ranking">
+                                    <img src="imgs/sub-page/ranking2.png" class="ranking-w ranking-two">
+                                    <img src="imgs/sub-page/ranking2-b.png" class="ranking-r ranking-two" style="display:none">
+                                </div>
+                            </div>
+                            <div class="center">
+                                <h4 class="name">
+                                    Other Side of the Box
+                                </h4>
+                            </div>
+                            <div class="right">
+                                <h5 class="genre">기괴한/고어X</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="posts--children" style="display: none;">
+                        <div class="post--children post-series">
+                            <div class="inner">
+                                <div class="series-list">
+                                    <a href="#" class="nolink">
+                                        <div class="left">
+                                            <iframe width="560" height="315" src="https://www.youtube.com/embed/OrOYvVf6tIM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        </div>
+                                        <div class="right">
+                                            <div class="right-top">
+                                            <h5 class="explain">
+                                                감독: Caleb J. Phillips
+                                            </h5>
+                                            <h5 class="explain">
+                                                각본: Caleb J. Phillips & Nick Tag
+                                            </h5>
+                                            </div>
+                                            <div class="right-bottom">
+                                            <h5 class="explain">후기</h5>
+                                            <p class="review">시선의 공포를 제대로 느끼게 해주는 영화. 깜짝 놀래키는 장면은 없으니 안심하고 봐도 된다. 다만, 썸네일에 나와있듯, 상자에서 얼굴만 내민 남자는 나오므로 기괴한 생물을 무서워한다면 보지 않는 것을 추천.</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-item post--event active">
+                    <div class="inner">
+                        <a href="#" class="has-children">
+                            <div class="left">
+                                <div class="ranking">
+                                    <img src="imgs/sub-page/ranking2.png" class="ranking-w ranking-two">
+                                    <img src="imgs/sub-page/ranking2-b.png" class="ranking-r ranking-two" style="display:none">
+                                </div>
+                            </div>
+                            <div class="center">
+                                <h4 class="name">
+                                    The Backrooms
+                                </h4>
+                            </div>
+                            <div class="right">
+                                <h5 class="genre">으스스함/미스테리</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="posts--children" style="display: none;">
+                        <div class="post--children post-series">
+                            <div class="inner">
+                                <div class="series-list">
+                                    <a href="#" class="nolink">
+                                        <div class="left">
+                                            <iframe width="560" height="315" src="https://www.youtube.com/embed/H4dGpz6cnHo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        </div>
+                                        <div class="right">
+                                            <div class="right-top">
+                                            <h5 class="explain">
+                                                감독: Kane Pixels
+                                            </h5>
+                                            <h5 class="explain">
+                                                각본: Kane Pixels
+                                            </h5>
+                                            </div>
+                                            <div class="right-bottom">
+                                            <h5 class="explain">후기</h5>
+                                            <p class="review">리미널 스페이스(liminal space: 끝없이 이어지는 미스테리한 공간)의 공포를 제대로 느끼게 해주는 단편이다. 비주얼적으로도 잘 만들어진 영화이니, 꼭 한 번 보길 바란다.</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-item post--event active">
+                    <div class="inner">
+                        <a href="#" class="has-children">
+                            <div class="left">
+                                <div class="ranking">
+                                    <img src="imgs/sub-page/ranking3.png" class="ranking-w ranking-three">
+                                    <img src="imgs/sub-page/ranking3-b.png" class="ranking-r ranking-three" style="display:none">
+                                </div>
+                            </div>
+                            <div class="center">
+                                <h4 class="name">
+                                    O.I.
+                                </h4>
+                            </div>
+                            <div class="right">
+                                <h5 class="genre">유혈/스릴러</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="posts--children" style="display: none;">
+                        <div class="post--children post-series">
+                            <div class="inner">
+                                <div class="series-list">
+                                    <a href="#" class="nolink">
+                                        <div class="left">
+                                            <iframe width="560" height="315" src="https://www.youtube.com/embed/qhufXt3AapU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        </div>
+                                        <div class="right">
+                                            <div class="right-top">
+                                            <h5 class="explain">
+                                                감독: N'cee van Heerden
+                                            </h5>
+                                            <h5 class="explain">
+                                                각본: N'cee van Heerden
+                                            </h5>
+                                            </div>
+                                            <div class="right-bottom">
+                                            <h5 class="explain">후기</h5>
+                                            <p class="review">괴물도, 악도, 살인자도 없이도 무서움을 느끼게 해주는 작품. 신선한 공포를 느끼고 싶면 추천합니다.</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-item post--event active">
+                    <div class="inner">
+                        <a href="#" class="has-children">
+                            <div class="left">
+                                <div class="ranking">
+                                    <img src="imgs/sub-page/ranking3.png" class="ranking-w ranking-three">
+                                    <img src="imgs/sub-page/ranking3-b.png" class="ranking-r ranking-three" style="display:none">
+                                </div>
+                            </div>
+                            <div class="center">
+                                <h4 class="name">
+                                    추후 추가 예정
+                                </h4>
+                            </div>
+                            <div class="right">
+                                <h5 class="genre">???</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="posts--children" style="display: none;">
+                        <div class="post--children post-series">
+                            <div class="inner">
+                                <div class="series-list">
+                                    <a href="#" class="nolink">
+                                        <div class="center">
+                                            <h5 class="series-name">
+                                                ???
+                                            </h5>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-item post--event active">
+                    <div class="inner">
+                        <a href="#" class="has-children">
+                            <div class="left">
+                                <div class="ranking">
+                                    <img src="imgs/sub-page/ranking3.png" class="ranking-w ranking-three">
+                                    <img src="imgs/sub-page/ranking3-b.png" class="ranking-r ranking-three" style="display:none">
+                                </div>
+                            </div>
+                            <div class="center">
+                                <h4 class="name">
+                                    추후 추가 예정
+                                </h4>
+                            </div>
+                            <div class="right">
+                                <h5 class="genre">???</h5>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="posts--children" style="display: none;">
+                        <div class="post--children post-series">
+                            <div class="inner">
+                                <div class="series-list">
+                                    <a href="#" class="nolink">
+                                        <div class="center">
+                                            <h5 class="series-name">
+                                                ???
+                                            </h5>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mode-btn">
+            <div class="when-dark-active">
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+            </div>
+            <div class="when-light-active">
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+            </div>
+            <div class="when-cute-active">
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mode-btn-click-space">
+            <div class="dark-mode">
+                <p>어둡게</p>
+            </div>
+            <div class="light-mode" style="display:none;">
+                <p>밝게</p>
+            </div>
+            <div class="cute-mode" style="display:none;">
+                <p>깜찍하게</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

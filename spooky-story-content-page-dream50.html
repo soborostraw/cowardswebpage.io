@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="library/jquery-3.6.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/mediaScreen.css">
+    
+    <style>
+    body {
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        box-sizing: border-box;
+        font-size: 1em;
+        margin: 0;
+        padding: 0;
+        overflow-y:hidden;
+    }
+    .base {
+        background-image: url("imgs/main/bg.png");
+        position: absolute;
+        left:50%;
+        top:60%;
+        transform: translate(-50%,-50%);
+        background-color: white;
+        width: 1050px;
+        height: 900px;
+        border-radius: 70px;
+    }
+    .screen {
+        overflow:hidden;
+        position: absolute;
+        display:flex;
+        flex-direction: column;
+        background-color: black;
+        width: 900px;
+        height: 445px;
+        margin-top: 50px;
+        margin-left: 75px;
+        border-radius: 20px;
+    }
+
+    /* screen top */
+    .screenTop {
+        flex: 20%;
+        border: 1px solid white;
+    }
+    .screenTop #searchbar {
+        position: absolute;
+        width: 300px;
+        height: 35px;
+        top: 30px;
+        right: 30px;
+        /*background-color: red;*/
+    }
+    #searchbar input[type=text] {
+        float: right;
+        padding: 7px;
+        border: none;
+        width: 285px;
+        border-radius: 30px;
+        font-size: 1em;
+    }
+    .screenTop .go-back, .ranking-explain-btn {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+    }
+    .screenTop img {
+        width: 100%;
+    }
+    .screenTop .go-back {
+        left: 40px;
+        top: 20px;
+        cursor:pointer;
+    }
+    .screenTop .ranking-explain-btn {
+        left: 100px;
+        top: 20px;
+        cursor:pointer;
+    }
+    .screenTop .sub-page-logo {
+        position: absolute;
+        width: 100px;
+        height: 40px;
+        left: 180px;
+        top: 20px;
+    }
+    .screenTop .sub-page-logo h3 {
+        font-size: 2em;
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        color: white;
+    }
+
+    /* screen main & sub page list */
+    .screenMain {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: block;
+        flex: 80%;
+        font-family: 'Noto Sans KR', sans-serif;
+        width: 101%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .screenMain .post--event {
+        background-color: black; 
+        border-bottom: 1px solid white;
+        border-top: 1px solid white;
+    }
+    .screenMain .post--event>.inner {
+        background-color: black;
+        display: flex;
+        -webkit-box-pack: center;
+        justify-content: space-around;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        transition: border-radius .7s ease;
+    }
+    .screenMain .post--event>.inner * {
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        letter-spacing: 0;
+        line-height: 1.08;
+        text-indent: 0;
+        width: 100%;
+        color: white;
+    }
+    .screenMain .post--event .story-content-place {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        align-items: center;
+        padding: 30px;
+        margin-top: 70px;
+        border-bottom: 1px solid white;
+    }
+    .screenMain .post--event .story-content-place .story-content {
+        color: white;
+        width: 80%;
+        padding: 30px;
+        text-align: justify;
+        line-height: 230%;
+        margin-bottom: 100px;
+    }
+    .screenMain .post--event .story-content-place .story-content {
+        color: white;
+        padding: 30px;
+    }
+    .screenMain .post--event .story-content-place h3 {
+        color: white;
+        padding: 30px;
+        margin-bottom: 50px;
+    }
+    .screenMain .post--event .footage {
+        color: white;
+        width: 80%;
+        padding: 60px;
+        text-align: justify;
+        line-height: 230%;
+        margin-bottom: 30px;
+    }
+    .screenMain .post--event .footage h3 {
+        color: white;
+        font-size: 1em;
+    }
+    .screenMain .post--event .footage a {
+        color: white;
+        text-decoration: none;
+        font-size: 0.9em;
+        display: block;
+    }
+
+    
+
+    /*ranking explain part*/
+    .ranking-explain {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        top: 18%;
+        left: 8.5%;
+        width: 700px;
+        height: 330px;
+        padding: 40px 50px;
+        background-image: url("imgs/sub-page/ranking-explain-bg.png");
+        display:none;
+    }
+    .ranking-explain .close-btn {
+        position: absolute;
+        top: 60px;
+        right: 30px;
+        width: 30px;
+        height: 30px;
+    }
+    .ranking-explain .close-btn img {
+        width: 100%;
+    }
+    .ranking-explain #ranking-explain-content {
+        display: block;
+        width: 100%;
+        margin-top: 33px;
+    }
+    .ranking-explain h4 {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 600;
+        line-height: 180%; 
+        margin: 0;
+        font-size: 1.1em;
+    }
+    .ranking-explain h5 {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 600;
+        line-height: 180%; 
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1em
+    }
+    .ranking-explain p {
+        display: inline;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 400;
+        line-height: 180%;
+    }
+    .ranking-explain #start1 {
+        width:4%;
+        padding-right: 5px;
+    }
+    .ranking-explain #start2 {
+        width: 8%;
+        padding-right: 5px;
+    }
+    .ranking-explain #start3 {
+        width: 12%;
+        padding-right: 5px;
+    }
+
+    /* screen mode button control */ 
+    .when-dark-active, .when-light-active, .when-cute-active {
+        position: absolute;
+        width: 115px;
+        height: 215px;
+        display:none;
+        right: 420px;
+        top: 65px;
+    }
+    .dark-mode, .light-mode, .cute-mode {
+        width: 110px;
+        height: 60px;
+        border-radius: 40px;
+        font-family: 'Noto Sans KR', sans-serif;
+        text-align: center;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+    .dark-mode p, .light-mode p, .cute-mode p {
+        font-size: 1.1em;
+        padding: 1em;
+        margin:0;
+    }
+    .dark-mode {
+        background-color: black;
+        color: white;
+        border: 1px solid white;
+    }
+    .light-mode {
+        background-color: white;
+        color: black;
+        cursor: pointer;
+        border: 1px solid black;
+    }
+    .cute-mode {
+        background-color: pink;
+    }
+    .mode-btn-click-space {
+        position: absolute;
+        right: 420px;
+        top: 65px;
+        width: 115px;
+        height: 60px;
+        cursor: pointer;
+    }
+    </style>
+    <script>
+        $(document).ready(function() {
+            //ranking btn
+            $(".ranking-explain-btn").click(function(){
+                $(".ranking-explain").css('display','block').hide().fadeIn();
+            });
+            $(".close-btn").click(function(){
+                  rankingExplainClose();
+            });
+            function rankingExplainClose() {
+                $(".ranking-explain").css('display','block').fadeOut();
+            }
+            
+            //mode-btn reposive
+            $(".mode-btn-click-space").children(".dark-mode").click(function(){
+                var modebtn = $(".when-dark-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            });
+            $(".when-dark-active").children(".light-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'none');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'block');
+
+                $(".when-dark-active").slideUp();
+            })
+            $(".when-dark-active").children(".cute-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'none');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'block');
+
+                $(".when-dark-active").slideUp();
+            })
+
+            $(".mode-btn-click-space").children(".light-mode").click(function(){
+                var modebtn = $(".when-light-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            })
+            $(".when-light-active").children(".dark-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'none');
+
+                $(".when-light-active").slideUp();
+            })
+            $(".when-light-active").children(".cute-mode").click(function() {
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'none');
+
+                $(".when-light-active").slideUp();
+            })
+
+            $(".mode-btn-click-space").children(".cute-mode").click(function(){
+                var modebtn = $(".when-cute-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            })
+            $(".when-cute-active").children(".dark-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'none');
+
+                $(".when-cute-active").slideUp();
+            })
+            $(".when-cute-active").children(".light-mode").click(function() {
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'none');
+
+                $(".when-cute-active").slideUp();
+            });
+
+            //actual changing view mode
+            $(".light-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/bg-light.png")')
+                $('.screen').css('background-color','white');
+                $('.post-item').css('background-color','white');
+                $(".screenTop").css('background','white').css('border-bottom','2px solid black');
+                $(".screenMain").css('background','white');
+                $('input[type=text]').css('background-color','black').css('color','white').css('padding','7px').css('font-size','1em');
+                
+                $('h3').css('color','black');
+                $('h4').css('color','black');
+                $('h5').css('color','black');
+
+                $(".story-content-place").css('background','white').css('border-bottom','2px solid black');
+                $('.story-content').css('color','black');
+                $('.footage').children('a').css('color','black');
+            });
+
+            $(".dark-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/bg.png")')
+                $('.screen').css('background-color','black');
+                $('.post-item').css('background-color','black');
+                $(".screenTop").css('background','black').css('border-bottom','2px solid white');
+                $(".screenMain").css('background','black');
+                $('input[type=text]').css('background-color','white').css('color','black').css('padding','7px').css('font-size','1em');
+                $('h3').css('color','white');
+                $('h4').css('color','white');
+                $('h5').css('color','white');
+                $(".story-content-place").css('background','black').css('border-bottom','2px solid white');
+                $('.story-content').css('color','white');
+                $('.footage').children('a').css('color','white');
+            });
+
+            $(".cute-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/cute-mode-bg.gif")')
+                $('.screen').css('background-color','black');
+                $('.post-item').css('background-color','black');
+                $(".screenTop").css('border-bottom','1px solid white').css('background-color','black');
+                $('.screenMain').css('background-color','black');
+                $('input[type=text]').css('background-color','white').css('color','black').css('padding','7px').css('font-size','1em');
+                $('h3').css('color','white');
+                $('h4').css('color','white');
+                $('h5').css('color','white');
+                $(".story-content-place").css('background','black').css('border-bottom','2px solid white');
+                $('.story-content').css('color','white');
+                $('.footage').children('a').css('color','white');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="base">
+        <div class="screen">
+            <div class="screenTop">
+                <div id="searchbar">
+                    <input type="text" placeholder="    Search..">
+                </div>
+                <div class="go-back">
+                    <a href="mainPage3.html">
+                        <img src="imgs/sub-page/home-btn.png">
+                    </a>
+                </div>
+                <div class="ranking-explain-btn" id="ranking-explain-btn">
+                    <a href="spooky-story-sub-page.html">
+                        <img src="imgs/sub-page/back-btn.png">
+                    </a>
+                </div>
+                <div class="sub-page-logo">
+                    <h3>괴담</h3>    
+                </div>
+            </div>
+            <div class="screenMain">
+                <div class="post-item post--event">
+                    <div class="story-content-place">
+                        <h3>영화 <1/50></h3>
+                        <p class="story-content">
+                            <span style="font-weight: 600;">[제목] 방금 악몽꾸고 깻다. 이런내용이 혹시 영화나 만화에 있냐?</span>
+                            <br><br><br>[내용]<br>소름끼치고 그런데, 꿈은 금방 까먹으니 간단히 설명한다.<br><br>
+                            무슨 이벤트 경품이라고 영화표 받음.<br>영화제목은 1/50<br><br>영화관에 콜라 라지 사서 들어감.<br><br>영화전 광고도 없고 회색화면 유지<br><br>화면이 흰화면으로 바뀌고 사람하나가 갑툭튀→전기톱에 난도질 당해 죽음<br>다시 회색화면 유지<br>위과정이 계속 반복됨.(죽는방식은 다양하게)<br><br>'이게 무슨 영화야?' 생각하던찰나 영화끝남. <br><br><br>엔딩크레딧에 생존자 내이름이 올라오는거 봄<br><br>주위에 불켜지고 나밖에 없음.<br><br>잠깸.
+                        </p>
+                    </div>
+                    <div class="footage">
+                        <h3>출처</h3>
+                        <a href="#">
+                            디시인갤러리
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="mode-btn">
+            <div class="when-dark-active">
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+            </div>
+            <div class="when-light-active">
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+            </div>
+            <div class="when-cute-active">
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+            </div>
+        </div>
+        <div class="mode-btn-click-space">
+            <div class="dark-mode">
+                <p>어둡게</p>
+            </div>
+            <div class="light-mode" style="display:none;">
+                <p>밝게</p>
+            </div>
+            <div class="cute-mode" style="display:none;">
+                <p>깜찍하게</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

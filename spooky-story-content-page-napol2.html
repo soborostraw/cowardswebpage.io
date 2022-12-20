@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="library/jquery-3.6.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/mediaScreen.css">
+    
+    <style>
+
+    body {
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        box-sizing: border-box;
+        font-size: 1em;
+        margin: 0;
+        padding: 0;
+        overflow-y:hidden;
+    }
+    .base {
+        background-image: url("imgs/main/bg.png");
+        position: absolute;
+        left:50%;
+        top:60%;
+        transform: translate(-50%,-50%);
+        background-color: white;
+        width: 1050px;
+        height: 900px;
+        border-radius: 70px;
+    }
+    .screen {
+        overflow:hidden;
+        position: absolute;
+        display:flex;
+        flex-direction: column;
+        background-color: black;
+        width: 900px;
+        height: 445px;
+        margin-top: 50px;
+        margin-left: 75px;
+        border-radius: 20px;
+    }
+
+    /* screen top */
+    .screenTop {
+        flex: 20%;
+        width: 900px;
+        height: 30px;
+        border: 1px solid white;
+    }
+    .screenTop #searchbar {
+        position: absolute;
+        width: 300px;
+        height: 35px;
+        top: 30px;
+        left: 560px;
+        /*background-color: red;*/
+    }
+    #searchbar input[type=text] {
+        float: right;
+        padding: 7px;
+        border: none;
+        width: 285px;
+        border-radius: 30px;
+        font-size: 1em;
+    }
+    .screenTop .go-back, .ranking-explain-btn {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+    }
+    .screenTop img {
+        width: 100%;
+    }
+    .screenTop .go-back {
+        left: 40px;
+        top: 20px;
+        cursor:pointer;
+    }
+    .screenTop .ranking-explain-btn {
+        left: 100px;
+        top: 20px;
+        cursor:pointer;
+    }
+    .screenTop .sub-page-logo {
+        position: absolute;
+        width: 100px;
+        height: 40px;
+        left: 180px;
+        top: 20px;
+    }
+    .screenTop .sub-page-logo h3 {
+        font-size: 2em;
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        color: white;
+    }
+
+    /* screen main & sub page list */
+    .screenMain {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: block;
+        flex: 80%;
+        font-family: 'Noto Sans KR', sans-serif;
+        border-radius: 20px;
+        width: 101%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .screenMain .post--event {
+        background-color: black; 
+        border-bottom: 1px solid white;
+        border-top: 1px solid white;
+    }
+    .screenMain .post--event>.inner {
+        background-color: black;
+        display: flex;
+        -webkit-box-pack: center;
+        justify-content: space-around;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        transition: border-radius .7s ease;
+    }
+    .screenMain .post--event>.inner * {
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        letter-spacing: 0;
+        line-height: 1.08;
+        text-indent: 0;
+        width: 100%;
+        color: white;
+    }
+    .screenMain .post--event .story-content-place {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        align-items: center;
+        padding: 30px;
+        margin-top: 70px;
+        border-bottom: 1px solid white;
+    }
+    .screenMain .post--event .story-content-place .story-content {
+        color: white;
+        width: 80%;
+        padding: 30px;
+        text-align: justify;
+        line-height: 230%;
+        margin-bottom: 100px;
+    }
+    .screenMain .post--event .story-content-place .story-content {
+        color: white;
+        padding: 30px;
+    }
+    .screenMain .post--event .story-content-place h3 {
+        color: white;
+        padding: 30px;
+        margin-bottom: 50px;
+    }
+    .screenMain .post--event .footage {
+        color: white;
+        width: 80%;
+        padding: 60px;
+        text-align: justify;
+        line-height: 230%;
+        margin-bottom: 30px;
+    }
+    .screenMain .post--event .footage h3 {
+        color: white;
+        font-size: 1em;
+    }
+    .screenMain .post--event .footage a {
+        color: white;
+        text-decoration: none;
+        font-size: 0.9em;
+        display: block;
+    }
+
+    /*ranking explain part*/
+    .ranking-explain {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        top: 18%;
+        left: 8.5%;
+        width: 700px;
+        height: 330px;
+        padding: 40px 50px;
+        background-image: url("imgs/sub-page/ranking-explain-bg.png");
+        display:none;
+    }
+    .ranking-explain .close-btn {
+        position: absolute;
+        top: 60px;
+        right: 30px;
+        width: 30px;
+        height: 30px;
+    }
+    .ranking-explain .close-btn img {
+        width: 100%;
+    }
+    .ranking-explain #ranking-explain-content {
+        display: block;
+        width: 100%;
+        margin-top: 33px;
+    }
+    .ranking-explain h4 {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 600;
+        line-height: 180%; 
+        margin: 0;
+        font-size: 1.1em;
+    }
+    .ranking-explain h5 {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 600;
+        line-height: 180%; 
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1em
+    }
+    .ranking-explain p {
+        display: inline;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 400;
+        line-height: 180%;
+    }
+    .ranking-explain #start1 {
+        width:4%;
+        padding-right: 5px;
+    }
+    .ranking-explain #start2 {
+        width: 8%;
+        padding-right: 5px;
+    }
+    .ranking-explain #start3 {
+        width: 12%;
+        padding-right: 5px;
+    }
+
+    /* screen mode button control */ 
+    .when-dark-active, .when-light-active, .when-cute-active {
+        position: absolute;
+        width: 115px;
+        height: 215px;
+        display:none;
+        right: 420px;
+        top: 65px;
+    }
+    .dark-mode, .light-mode, .cute-mode {
+        width: 110px;
+        height: 60px;
+        border-radius: 40px;
+        font-family: 'Noto Sans KR', sans-serif;
+        text-align: center;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+    .dark-mode p, .light-mode p, .cute-mode p {
+        font-size: 1.1em;
+        padding: 1em;
+        margin:0;
+    }
+    .dark-mode {
+        background-color: black;
+        color: white;
+        border: 1px solid white;
+    }
+    .light-mode {
+        background-color: white;
+        color: black;
+        cursor: pointer;
+        border: 1px solid black;
+    }
+    .cute-mode {
+        background-color: pink;
+    }
+    .mode-btn-click-space {
+        position: absolute;
+        right: 420px;
+        top: 65px;
+        width: 115px;
+        height: 60px;
+        cursor: pointer;
+    }
+    </style>
+    <script>
+        $(document).ready(function() {
+            //ranking btn
+            $(".ranking-explain-btn").click(function(){
+                $(".ranking-explain").css('display','block').hide().fadeIn();
+            });
+            $(".close-btn").click(function(){
+                  rankingExplainClose();
+            });
+            function rankingExplainClose() {
+                $(".ranking-explain").css('display','block').fadeOut();
+            }
+            
+            //mode-btn reposive
+            $(".mode-btn-click-space").children(".dark-mode").click(function(){
+                var modebtn = $(".when-dark-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            });
+            $(".when-dark-active").children(".light-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'none');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'block');
+
+                $(".when-dark-active").slideUp();
+            })
+            $(".when-dark-active").children(".cute-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'none');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'block');
+
+                $(".when-dark-active").slideUp();
+            })
+
+            $(".mode-btn-click-space").children(".light-mode").click(function(){
+                var modebtn = $(".when-light-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            })
+            $(".when-light-active").children(".dark-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'none');
+
+                $(".when-light-active").slideUp();
+            })
+            $(".when-light-active").children(".cute-mode").click(function() {
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'none');
+
+                $(".when-light-active").slideUp();
+            })
+
+            $(".mode-btn-click-space").children(".cute-mode").click(function(){
+                var modebtn = $(".when-cute-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            })
+            $(".when-cute-active").children(".dark-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'none');
+
+                $(".when-cute-active").slideUp();
+            })
+            $(".when-cute-active").children(".light-mode").click(function() {
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'none');
+
+                $(".when-cute-active").slideUp();
+            });
+
+            //actual changing view mode
+            $(".light-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/bg-light.png")')
+                $('.screen').css('background-color','white');
+                $(".screenTop").css('background','white').css('border-bottom','2px solid black');
+                $(".screenMain").css('background','white');
+                $('input[type=text]').css('background-color','black').css('color','white').css('padding','7px').css('font-size','1em');
+                $('h3').css('color','black');
+                $(".post-item").css('background','white');
+                $(".left").css('background','white').css('border-right','1px solid black').css('border-bottom','1px solid black');
+                $(".center").css('background','white').css('border-right','1px solid black').css('border-bottom','1px solid black');
+                $(".right").css('background','white').css('border-bottom','1px solid black');
+                $('.right-top').css('border-bottom','1px solid black');
+                $('.right-center').css('border-bottom','1px solid black');
+                $('h4').css('color','black');
+                $('h5').css('color','black');
+                $('.review').css('color','black');
+                $('.ranking-w').css('display','none');
+                $('.ranking-r').css('display','inline');
+                $(".story-content-place").css('background','white').css('border-bottom','2px solid black');
+                $('.story-content').css('color','black');
+                $('.footage').children('a').css('color','black');
+            });
+
+            $(".dark-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/bg.png")')
+                $('.screen').css('background-color','black');
+                $(".screenTop").css('background','black').css('border-bottom','2px solid white');
+                $(".screenMain").css('background','black');
+                $('input[type=text]').css('background-color','white').css('color','black').css('padding','7px').css('font-size','1em');
+                $('h3').css('color','white');
+                $(".post-item").css('background','black');
+                $(".left").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".center").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".right").css('background','black').css('border-bottom','1px solid white').css('border-bottom', '1px solid white');
+                $('h4').css('color','white');
+                $('h5').css('color','white');
+                $('.review').css('color','white');
+                $('.ranking-w').css('display','inline');
+                $('.ranking-r').css('display','none');
+                $(".story-content-place").css('background','black').css('border-bottom','2px solid white');
+                $('.story-content').css('color','white');
+                $('.footage').children('a').css('color','white');
+            });
+
+            $(".cute-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/cute-mode-bg.gif")')
+                $('.screen').css('background-color','black');
+                $(".screenTop").css('border-bottom','1px solid white').css('background-color','black');
+                $('.screenMain').css('background-color','black');
+                $('input[type=text]').css('background-color','white').css('color','black').css('padding','7px').css('font-size','1em');
+                $('h3').css('color','white');
+                $(".post-item").css('background','black');
+                $(".left").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".center").css('background','black').css('border-right','1px solid white').css('border-bottom', '1px solid white');
+                $(".right").css('background','black').css('border-bottom','1px solid white').css('border-bottom', '1px solid white');
+                $('h4').css('color','white');
+                $('h5').css('color','white');
+                $('.review').css('color','white');
+                $('.ranking-w').css('display','inline');
+                $('.ranking-r').css('display','none');
+                $(".story-content-place").css('background','black').css('border-bottom','2px solid white');
+                $('.story-content').css('color','white');
+                $('.footage').children('a').css('color','white');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="base">
+        <div class="screen">
+            <div class="screenTop">
+                <div id="searchbar">
+                    <input type="text" placeholder="    Search..">
+                </div>
+                <div class="go-back">
+                    <a href="mainPage3.html">
+                        <img src="imgs/sub-page/home-btn.png">
+                    </a>
+                </div>
+                <div class="ranking-explain-btn" id="ranking-explain-btn">
+                    <a href="spooky-story-sub-page.html">
+                        <img src="imgs/sub-page/back-btn.png">
+                    </a>
+                </div>
+                <div class="sub-page-logo">
+                    <h3>괴담</h3>    
+                </div>
+            </div>
+            <div class="ranking-explain" id="ranking-explain">
+                <div class="close-btn">
+                    <img src="imgs/sub-page/close-btn.png">
+                </div>
+                <div id="ranking-explain-content">
+                    <h4>* 난이도</h4>
+                    <h5>기준: 상업 공포 영화(ex. 고사, 장화홍련, 무서운 이야기 등등...)를 전혀 보지 못하는 사람<span class="little-space" style="display:block;padding:5px;"></span></h5>
+                    <img id="start1" src="imgs/sub-page/ranking1-b.png">
+                    <p>: 약간 소름 돋는 정도. 밤에 생각날 정도는 아니다.<span class="little-space" style="display:block; padding: 10px;"></span></p>
+                    <img id="start2" src="imgs/sub-page/ranking2-b.png">
+                    <p>: 다소 충격이 있을 수 있음. 불 끄고 보거나 밤에 보면 무서울 수 있다.<span class="little-space" style="display:block;padding: 10px;"></span></span></p>
+                    <img id="start3" src="imgs/sub-page/ranking3-b.png">
+                    <p>: 오늘은 달려보겠다! 스릴과 공포를 느끼고 싶을 때 추천. (물론 겁쟁이 기준)<span class="little-space"></span></p>
+                </div>
+            </div>
+            <div class="screenMain">
+                <div class="post-item post--event">
+                    <div class="story-content-place">
+                        <h3>無名書䜌_무명서련</h3>
+                        <p class="story-content">
+                            {설명서}<br>
+                            [이곳에 오게 된 당신에게 환영의 인사를 올립니다. 마음에 드는 책이 있으시다면 마음껏 빌려 가세요. 대출한 책을 반납하고, 새로운 책을 다시 대출하며 당신이 우리 도서관에 자주 방문하기를 원합니다. 부디 저희 도서관에서 좋은 시간을 보내시길, 당신도 그것을 원하신다면 흔쾌히 재방문해주세요.]<br><br>
+
+                            1. 마음에 드는 책이 있다면 마음껏 빌려 가세요. 정해진 권 수는 없습니다. 문에 있는 자동 센서가 정보를 인식해 정확한 시간과 책의 제목, 저자, 출판사 등 모든 것을 저장합니다. 당신의 정보도 자동으로 저장이 됩니다. 저희는 당신의 이름만 알고 있지 않습니다. 저희 도서관은 당신을 언제나 환영합니다.
+                            <br><br>
+                            ​2. 대출기한은 정해져 있지 않습니다. 편하게 읽고 언제든 다시 반납해주세요. 저희는 당신을 환영합니다. 다만, 당신의 정보는 다시 반납할 수 없습니다. 저희 도서관은 당신을 언제나 환영합니다.
+                            <br><span style="font-weight:500; color:black">- 당신의 정보는 영원히 도서관에 남아있습니다.</span>
+                            <br><br>
+                            3. 책을 손상하지 말아 주세요. 저희는 책을 소중히 생각하는 도서관입니다. 저희 도서관은 당신을 언제나 환영합니다. 책이 손상된 것을 모를 거라 생각하며 숨기지 말아주세요.
+                            <br><br>
+                            <span style="color:black; text-decoration: line-through;">4. 저희는 당신을 언제나 환영합니다. </span>
+                            <br><br>
+                            5. 저희 도서관에는 직원이 없습니다. 또한, 그 어느 곳에도 보안카메라가 설치되어 있지 않습니다. 저희는 당신을 언제나 환영합니다. 다만, 저희는 당신을 알고 있습니다. 
+                            <br><span style="font-weight:500; color:black">- 저희는 당신을 언제나 보고 있습니다.</span>
+                            <br><br>
+                            6. 저희 도서관은 책을 장르대로 분류해 놓지 않습니다. 원하시는 장르의 책을 쉽게 찾을 수 있게 도서관의 문 옆에 두 대의 컴퓨터를 구비해두었습니다. 편하게 책을 찾으실 수 있길 바랍니다. 저희 도서관은 당신을 언제나 환영합니다.
+                            <br><br>
+                            7. 저희 도서관은 당신을 언제나 환영합니다. 유아용 책은 주로 책장의 맨 아래 칸에 있습니다. 만약 맨 아래 칸이 아닌 다른 칸에 유아용 책이 꽂혀있다면 절대 그것을 꺼내지 마십시오. 
+                            <br><br>
+                            8. 반려견은 출입을 금합니다. 고양이는 가능합니다. 저희 도서관은 당신을 언제나 환영합니다.
+                            <br><br>
+                            9. 도서관의 구석에는 창고가 있습니다. 혹시나 찾고 있는 책이 책장에 없다면 구석의 창고로 가시면 됩니다. 가끔 부주의 탓에 창고의 불이 꺼져있을 때가 있습니다. 그때는 휴대하고 계신 휴대폰의 플래시를 켜고 들어와 주시길 바랍니다. 저희는 언제나 당신을 환영합니다.
+                            <br><span style="font-weight:500; color:black">- 당신이 보는 빛은 창고의 빛이 마지막일 것입니다.</span><br><br>
+                            10. 7번의 설명과 다른 칸에 있는 유아용 책이 있을 때가 있습니다. 저희 직원의 부주의 탓일 겁니다. 만약 그 책을 꺼내셨다면 절대 펼쳐보지 마십시오. 혹시나 그 책을 펼쳐보셨다면 절대 숨을 쉬지 마십시오. 절대 아무 소리도 내지 마십시오. 저희 도서관은 당신을 언제나 환영합니다. <br><br>
+                            11. 저희는 당신을 언제나 환영합니다. 만약 어디선가 아이의 웃음소리가 들린다면, 그 소리에 집중해주십시오. 그 웃음이 소년의 소리라면 오랫동안 숨을 참으셔야 합니다. 그 웃음이 소녀의 것이라면 바로 도서관 밖으로 도망가십시오. 책은 꼭 들고 가셔야 합니다.<br><span style="font-weight:500; color:black">- 소년과 소녀가 반대되어야 합니다. 당신은 책을 놓고 가야 합니다. 아이가 당신을 따라갈 겁니다. 아이는 자신의 책을 찾고 있습니다.</span>
+                            <br><br>
+                            12. 아이를 보셨거나 아이와 눈을 마주치셨다면 아이의 손에 무언가 들려있는지 확인하십시오. 무언가 들려있다면 몸의 어느 곳이든 즉시 피를 내십시오. 저희는 당신을 언제나 환영합니다. <br><span style="font-weight:500; color:black">- 책의 제목은 칼을 든 소녀, 칼을 든 소년입니다.</span><br><br>
+                            13. 계단을 이용하시다 이상한 소리가 들리는 것 같다면, 즉시 엘리베이터를 이용해주십시오. 저희는 당신을 언제나 환영합니다.<br><br>
+                            14. 저희 도서관은 24시간 운영됩니다. 저희 도서관은 당신을 언제나 환영합니다. 편하게 계시다 편하게 귀가하시길 바랍니다. <br><span style="font-weight:500; color:black">- 19.</span><br><br>
+                            15. 도서관에 자정이 넘는 시간까지 있으신 분들은, 절대 잠들지 마십시오. 화장실도 구석도 그 어느 곳도 안 됩니다. 저희는 당신을 언제나 환영합니다.<br><span style="font-weight:500; color:black">- 저희는 당신을 구할 수 없습니다. 당신은 영영 돌아오지 못할 겁니다.</span><br><br>
+                            16. 15번의 설명을 추가합니다. 저희 도서관에는 자정이 되면 뻐꾸기가 시간을 알려주는 종 시계가 있습니다. 그 종 시계가 자정이 되어도 울리지 않는다면 바로 도서관 밖으로 나가십시오. 저희 도서관은 당신을 언제나 환영합니다.<br><br>
+                            17. 종종 글씨가 흐릿한 문항이 있습니다. 비가 오는 날 때문인지 출력 상의 문제라 생각하며 넘어가 주시길 바라겠습니다. 저희는 당신을 언제나 환영합니다.<br><span style="font-weight:500; color:black">- 25.</span><br><br>
+                            17. 실수로 11번의 내용을 삭제하여 설명서의 문항은 10번 다음 바로 12번으로 건너갑니다. 혹시 11번을 못 보셨어도 다시 문항을 확인하지 말아주세요. 만약 11번을 보셨다면 절대 그 행동대로 따라 하지 마십시오. 저희는 당신을 언제나 환영합니다.<br><span style="font-weight:500; color:black">- 거짓말쟁이는 17번을 좋아합니다. </span><br><br>
+                            18. 설명서 문항들에 '저희는 당신을 언제나 환영합니다.'라는 문장이 있다면 절대 그것을 믿으면 안됩니다. 저희 도서관은 당신을 언제나 환영합니다.<br><br>
+                            19. 저희 도서관에는 계단이 없고 엘리베이터가 있지만 전 거주지 분의 말로는 엘리베이터 사고로 죽은 여인이 있다 하여 엘리베이터 사용을 멈추었습니다. 2층은 현재 사용하지 않고 있으며, 혹시나 계단이나 엘리베이터를 보신 분은 절대 그곳으로 올라가지 마십시오. 저희 도서관은 당신을 언제나 환영합니다.<br><br>
+                            20. 18번의 말을 듣지 마십시오. 저희 도서관은 당신을 언제나 환영합니다.<br><br>
+                            21. 새 책이 들어오는 날에는 구석에 상자가 쌓여 있습니다. 될 수 있으면 그것을 건들지 말아 주세요. 저희는 당신을 언제나 환영합니다. 저희 도서관은 책을 소중히 생각합니다. 그 안에는 책이 들어있습니다. 빨간 액체가 묻어있다면 그것은 아무것도 아닙니다.<br><span style="font-weight:500; color:black">- 상자 안에서 당신을 보고 있습니다. </span><br><br>
+                            22. 당신의 정보는 유출되지 않습니다. 저희는 당신을 언제나 환영합니다.<br><span style="font-weight:500; color:black">- 당신은 늦었습니다. </span><br><br>
+                            23. 저희 도서관은 당신을 언제나 환영합니다. 저희 도서관의 종 시계는 멈춘 지 약 5년이 다 되어갑니다.<br><br>
+                            24. 책의 겉표지가 전부 빨간색인 책이 있다면 그 책을 맨 위 칸에 꽂아주시길 바랍니다. 사다리를 타고 올라가 주세요. 저희는 당신을 언제나 환영합니다.<br><span style="font-weight:500; color:black">- 칼을 든 소녀, 칼을 든 소년의 겉표지는 빨간색입니다. 아이가 당신을 보았습니다.</span><br><br>
+                            25. 4번은 틀리지 <span style="color:rgb(169, 169, 169)">않</span><span style="color:rgb(59, 59, 59)">은</span> <span style="color:black; font-weight: 500">틀린 말입니다.</span><br><br>
+                            26. 문 옆에 있는 두 대의 컴퓨터 중 한 대의 컴퓨터가 켜져 있다면 주변에 사람이 있는지 확인해주세요. 아무도 없다면 바로 그 컴퓨터를 꺼주시고 찾으시는 책은 나중에 찾아주시길 바랍니다. 사람이 있다면 그 사람에게 다가가 이 컴퓨터를 켰는지 안 켰는지 물어봅니다. 아니라고 하면 위와 똑같이 행동해주십시오. 저희 도서관은 당신을 언제나 환영합니다. 혹시나 컴퓨터 두 대가 전부 켜져 있다면 바로 도서관 밖으로 나가주십시오.<br><br>
+                            27. 저희는 공휴일에도 문이 열려있습니다. 편히 저희 도서관을 이용해주세요. 저희 도서관은 당신을 언제나 환영합니다.<br><br>
+                            28. 도서관 문은 언제나 닫아 둡니다. 열려있어도 자동으로 닫히는 기능이 있기에 언제나 닫혀있습니다. 혹시나 누군가 도서관의 문을 열고 들어오라며 손짓하면 그날은 절대 도서관을 방문하지 말아 주세요. 저희는 당신을 언제나 환영합니다. 그는 다시는 오지 않을 것입니다.<br><span style="font-weight:500; color:black">- 그는 당신을 언제나 지켜보고 있습니다.</span><br><br>
+                            29. 사계절 내내 에어컨과 히터를 일정 시간에 틀어 놓습니다. 저희는 당신을 언제나 환영합니다. 창문이 닫혀있다면 다시 열어 주십시오. 저희는 당신을 언제나 환영합니다.<br><span style="font-weight:500; color:black">-- 열려있는 창문으로 무언가 들어 올 수 있습니다.</span><br><br>
+                            30. 저희 도서관에는 직원이 없습니다. 저희는 이라는 단어는 쓰지 않습니다. 저희 도서관은 당신을 언제나 환영합니다.<br><br>
+                            31. 저희 도서관은 당신을 언제나 환영합니다. 당신이 이 설명서를 읽었다면 설명서에 핏자국이 남지 않았을 거라 믿습니다. <br><br>
+
+                            <span style="font-size:1.3em;font-weight:600; font-style:italic;">[저희 도서관은 당신을 언제나 환영합니다.]</span><br><br><br><br>
+                            
+                            **바탕색을 흰색으로 바꾸고 처음으로 돌아가주세요.
+                        
+                        </p>
+                    </div>
+                    <div class="footage">
+                        <h3>출처</h3>
+                        <a href="https://hyeon-01.postype.com/post/4701068">
+                            원본: https://hyeon-01.postype.com/post/4701068
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mode-btn">
+            <div class="when-dark-active">
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+            </div>
+            <div class="when-light-active">
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+            </div>
+            <div class="when-cute-active">
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+            </div>
+        </div>
+        <div class="mode-btn-click-space">
+            <div class="dark-mode">
+                <p>어둡게</p>
+            </div>
+            <div class="light-mode" style="display:none;">
+                <p>밝게</p>
+            </div>
+            <div class="cute-mode" style="display:none;">
+                <p>깜찍하게</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

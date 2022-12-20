@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="library/jquery-3.6.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+    @media (orientation: landscape) and (max-width:896px) {
+            body {
+                position: absolute;
+                top: 38%;
+                left: 7.5%;
+                overflow-x: hidden;
+            }
+        }
+        body {
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        box-sizing: border-box;
+        font-size: 1em;
+        overflow-y: hidden;
+    }
+    .base {
+        background-image: url("imgs/main/bg.png");
+        position: absolute;
+        left:50%;
+        top:60%;
+        transform: translate(-50%,-50%);
+        width: 1050px;
+        height: 900px;
+        border-radius: 70px;
+    }
+    .screen {
+        position: absolute;
+        display:flex;
+        flex-direction: column;
+        background-color: black;
+        width: 900px;
+        height: 445px;
+        margin-top: 50px;
+        margin-left: 75px;
+        border-radius: 20px;
+    }
+
+    .screenTop {
+        flex: 20%;
+        border: 1px solid white;
+    }
+
+    .screenTop #searchbar {
+        position: absolute;
+        width: 300px;
+        height: 35px;
+        top: 30px;
+        right: 30px;
+    }
+    #searchbar input[type=text] {
+        float: right;
+        padding: 7px;
+        border: none;
+        width: 285px;
+        border-radius: 30px;
+        font-size: 1em;
+    }
+    .screenTop #time, #topBar {
+        position: absolute;
+        width: 50px;
+        height: 35px;
+        top: 30px;
+    }
+    .screenTop #time {
+        left: 40px;
+        padding: 2px;
+        color: #fff;
+        font-size: 1.2em;
+        font-family: 'Noto Sans KR', sans-serif;
+        animation: glow 1s ease-in-out infinite alternate;
+        -moz-animation: glow 1s ease-in-out infinite alternate;
+        -webkit-animation: glow 1s ease-in-out infinite alternate;
+    }
+    .screenTop #topBar {
+        left: 100px;
+    }
+    .screenTop #topBar img {
+        width: 80%;
+        padding: 5px;
+    }
+    .screenMain {
+        flex: 80%;
+    }
+    .mention-text {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 1em;
+        text-align: center;
+        color: white;
+        margin-top: 0px;
+        margin-bottom: 30px;
+        line-height: 170%;
+    }
+
+    /* screen mode button control */ 
+    .when-dark-active, .when-light-active, .when-cute-active {
+        position: absolute;
+        top: 57%;
+        left: 82%;
+        width: 115px;
+        height: 215px;
+        display:none;
+    }
+    .dark-mode, .light-mode, .cute-mode {
+        width: 110px;
+        height: 60px;
+        border-radius: 40px;
+        box-shadow: 3px 3px 5px grey;
+        font-family: 'Noto Sans KR', sans-serif;
+        text-align: center;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+    .dark-mode p, .light-mode p, .cute-mode p {
+        font-size: 1.1em;
+        padding: 1em;
+        margin:0;
+    }
+    .dark-mode {
+        background-color: black;
+        color: white;
+    }
+    .light-mode {
+        background-color: white;
+        color: black;
+        cursor: pointer;
+    }
+    .cute-mode {
+        background-color: pink;
+    }
+    .mode-btn-click-space {
+        position: absolute;
+        top:57%;
+        left: 82%;
+        width: 115px;
+        height: 60px;
+        cursor: pointer;
+    }
+
+    /* menu button list */
+    .img-list, .btn-list {
+        padding: 0 40px;
+        display: flex;
+        justify-content:space-around;
+    }
+    .img-list>li {
+        width: 140px;
+        height:180px;
+        list-style-type: none;
+        position: absolute;
+        display: inline-block;
+    }
+    .menu-img .on {
+        width: 100%;
+        display: none;
+        position: absolute;
+    }
+    .menu-img:hover .on {
+        width: 100%;
+        display: inline;
+        top: 0;
+        left: 0;
+        z-index: 99;
+    }
+    .menu-img .off {
+        width: 100%;
+        position:absolute;
+    }
+    .btn-list>li {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 1.2em;
+        font-weight: 500;
+        width: 120px;
+        text-align: center;
+        list-style-type: none;
+    }
+    .btn-list>li>a {
+        text-decoration: none;
+        color: white;
+    }
+    .btn-list>li>a:hover {
+        text-decoration: underline;
+    }
+    .btn-list>li>a:active {
+        text-decoration: none;
+    }
+    </style>
+    <script>
+        setInterval(displayTime, 1000);
+
+        function displayTime() {
+            const timeNow = new Date();
+
+            let hoursOfDay = timeNow.getHours();
+            let minutes = timeNow.getMinutes();
+            
+            hoursOfDay = hoursOfDay < 10 ? "0" + hoursOfDay : hoursOfDay;
+            minutes = minutes < 10 ? "o" + minutes : minutes;
+
+            let time = hoursOfDay + ":" + minutes;
+
+            document.getElementById('time').innerHTML = time;
+        }
+
+        $(document).ready(function() {
+
+            /*mode-btn reposive*/
+            $(".mode-btn-click-space").children(".dark-mode").click(function(){
+                var modebtn = $(".when-dark-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            });
+            $(".when-dark-active").children(".light-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'none');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'block');
+
+                $(".when-dark-active").slideUp();
+            })
+            $(".when-dark-active").children(".cute-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'none');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'block');
+
+                $(".when-dark-active").slideUp();
+            })
+
+            $(".mode-btn-click-space").children(".light-mode").click(function(){
+                var modebtn = $(".when-light-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            })
+            $(".when-light-active").children(".dark-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'none');
+
+                $(".when-light-active").slideUp();
+            })
+            $(".when-light-active").children(".cute-mode").click(function() {
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'none');
+
+                $(".when-light-active").slideUp();
+            })
+
+            $(".mode-btn-click-space").children(".cute-mode").click(function(){
+                var modebtn = $(".when-cute-active");
+
+                if(modebtn.is(":visible")) {
+                    modebtn.slideUp();
+                } else {
+                    modebtn.slideDown();
+                }
+            })
+            $(".when-cute-active").children(".dark-mode").click(function() {
+                $(".mode-btn-click-space").children(".dark-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'none');
+
+                $(".when-cute-active").slideUp();
+            })
+            $(".when-cute-active").children(".light-mode").click(function() {
+                $(".mode-btn-click-space").children(".light-mode").css('display', 'block');
+                $(".mode-btn-click-space").children(".cute-mode").css('display', 'none');
+
+                $(".when-cute-active").slideUp();
+            })
+
+            $(".light-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/bg-light.png")')
+                $(".screenTop").css('background','white').css('border-bottom','2px solid black');
+                $(".screenMain").css('background','white');
+                $(".mention-text").css('color','black');
+                $(".btn-list").children('li').children('a').css('color','black');
+                $('.off-w').css('display','inline').css('position','absolute').css('width','100%');
+                $('.film-off').css('display','none');
+                $('.film-on').css('display','none');
+                $('#time').css('color','black');
+                $('#battery').css('display','none');
+                $('#battery-w').css('display','inline').css('width','80%').css('padding','5px');
+                $('input[type=text]').css('background-color','black').css('color','white').css('padding','7px').css('font-size','1em');
+            });
+            $('#short-film-off-w').hover(function(){
+                $('#short-film-on-w').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#short-film-on-w').css('display','none');
+            });
+            $('#movie-off-w').hover(function(){
+                $('#movie-on-w').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#movie-on-w').css('display','none');
+            });
+
+            $(".dark-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/bg.png")')
+                $(".screenTop").css('background','black').css('border-bottom','2px solid white');
+                $(".screenMain").css('background','black');
+                $(".mention-text").css('color','white');
+                $(".btn-list").children('li').children('a').css('color','white');
+                $('.off-w').css('display','none');
+                $('.on-w').css('display','none');
+                $('.off').css('display','inline').css('position','absolute').css('width','100%');
+                $('#time').css('color','white');
+                $('#battery-w').css('display','none');
+                $('#battery').css('display','inline').css('width','80%').css('padding','5px');
+                $('input[type=text]').css('background-color','white').css('color','black').css('padding','7px').css('font-size','1em');
+            });
+            $('#short-film-off').hover(function(){
+                $('#short-film-on').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#short-film-on').css('display','none');
+            });
+            $('#movie-off').hover(function(){
+                $('#movie-on').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#movie-on').css('display','none');
+            });
+
+            $(".cute-mode.active").click(
+                function() {
+                $('.base').css('background-image','url("imgs/main/cute-mode-bg.gif")')
+                $(".screenTop").css('border-bottom','1px solid white').css('background-color','black');
+                $('.screenMain').css('background-color','black');
+                $(".mention-text").css('color','white');
+                $(".btn-list").children('li').children('a').css('color','white');
+                $('.off-w').css('display','none');
+                $('.on-w').css('display','none');
+                $('.off').css('display','inline').css('position','absolute').css('width','100%');
+                $('#time').css('color','white');
+                $('#battery-w').css('display','none');
+                $('#battery').css('display','inline').css('width','80%').css('padding','5px');
+                $('input[type=text]').css('background-color','white').css('color','black').css('padding','7px').css('font-size','1em');
+            });
+            $('#short-film-off').hover(function(){
+                $('#short-film-on').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#short-film-on').css('display','none');
+            });
+            $('#movie-off').hover(function(){
+                $('#movie-on').css('display','inline').css('position','absolute').css('width','100%');
+            }, function() {
+                $('#movie-on').css('display','none');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="base">
+        <div class="screen">
+            <div class="screenTop">
+                <div id="searchbar">
+                    <input type="text" placeholder="    Search..">
+                </div>
+                <div id="time">00:00</div>
+                <div id="topBar">
+                    <img id="battery" src="imgs/main/battery.png">
+                    <img id="battery-w" style="display:none;" src="imgs/main/battery-w.png">
+                </div>
+            </div>
+            <div class="screenMain">
+                <div class="mention-text">
+                    <p>안녕하세요. <span style="text-decoration:line-through">(적당히)</span> 무서운 게 딱 좋아!에 오신 걸 환영합니다. </br> 화면을 가로로 두고 즐겨주세요.</p>
+                </div>
+                <div class="button-list">
+                    <ul class="img-list">
+                        <li class="menu-img" id="spookyStory">
+                            <a href="spooky-story-sub-page.html">
+                                <img class="off" src="imgs/main/spooky-story-icon-locked.png" alt="img-back">
+                                <img class="on" src="imgs/main/spooky-story-icon-unlocked.png">
+                            </a>
+                        </li>
+                        <li class="menu-img" id="shortFilm">
+                            <a href="short-film-sub-page.html">
+                                <img class="off film-off" id="short-film-off" src="imgs/main/short-film-icon-locked.png" alt="img-back">
+                                <img class="on film-on" id="short-film-on" src="imgs/main/short-film-icon-unlocked.png">
+                                <img class="off-w" id="short-film-off-w" src="imgs/main/short-film-icon-locked-white.png" style="display:none;">
+                                <img class="on-w" id="short-film-on-w" src="imgs/main/short-film-icon-unlocked-white.png" style="display:none;">
+                            </a>
+                        </li>
+                        <li class="menu-img" id="movie">
+                            <a href="movie-sub-page copy.html">
+                                <img class="off film-off" id="movie-off" src="imgs/main/movie-icon-locked.png" alt="img-back">
+                                <img class="on film-on" id="movie-on" src="imgs/main/movie-icon-unlocked.png">
+                                <img class="off-w" id="movie-off-w" src="imgs/main/movie-icon-locked-white.png" style="display:none;">
+                                <img class="on-w" id="movie-on-w"  src="imgs/main/movie-icon-unlocked-white.png" style="display:none;">
+                            </a>
+                        </li>   
+                        <li class="menu-img" id="webtoon">
+                            <a href="#">
+                                <img class="off" src="imgs/main/webtoon-icon-locked.png" alt="img-back">
+                                <img class="on" src="imgs/main/webtoon-icon-unlocked.png">
+                            </a>
+                        </li> 
+                    </ul>
+                    <ul class="btn-list">
+                        <li class="spookyStory">
+                            <a href="spooky-story-sub-page.html">괴담
+                            </a>
+                        </li>
+                        <li class="shortFilm">
+                            <a href="short-film-sub-page.html">짧은 영화
+                            </a>
+                        </li>
+                        <li class="movie">
+                            <a href="movie-sub-page copy.html">긴 영화
+                            </a>
+                        </li>
+                        <li class="webtoon">
+                            <a href="#">웹툰
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mode-btn">
+            <div class="when-dark-active">
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+            </div>
+            <div class="when-light-active">
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+            </div>
+            <div class="when-cute-active">
+                <div class="cute-mode active">
+                    <p>깜찍하게</p>
+                </div>
+                <div class="dark-mode active">
+                    <p>어둡게</p>
+                </div>
+                <div class="light-mode active">
+                    <p>밝게</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mode-btn-click-space">
+            <div class="dark-mode">
+                <p>어둡게</p>
+            </div>
+            <div class="light-mode" style="display:none;">
+                <p>밝게</p>
+            </div>
+            <div class="cute-mode" style="display:none;">
+                <p>깜찍하게</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
